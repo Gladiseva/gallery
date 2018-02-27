@@ -1,0 +1,14 @@
+ Project - configurable gallery
+ Main functionality:
+ 1. add/remove different galleries
+ 2. add/remove pictures to gallery
+ 3. gallery preview
+ 4. view complete list of available galleries
+ 5. permanently store created gallery list and load it on program startup
+
+ Addition:
+ 1. different users
+ 2. possibility to hide gallery/image
+ 3. image scalable to screen sizes
+ 4. introduce archive for deleted/used galleries/images
+
