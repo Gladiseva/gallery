@@ -7,7 +7,7 @@ public class Gallery {
     private String title;
     private String description;
 
-    private List<Image> images =new ArrayList<>();
+    private List<Image> images = new ArrayList<>();
 
     public Gallery(String title, String description) {
         this.title = title;

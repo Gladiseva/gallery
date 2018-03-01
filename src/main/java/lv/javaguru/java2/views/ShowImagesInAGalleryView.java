@@ -1,17 +1,16 @@
 package lv.javaguru.java2.views;
 
 import lv.javaguru.java2.Image;
-import lv.javaguru.java2.businesslogic.ShowImagesInAGalleryService;
-import lv.javaguru.java2.database.GalleryDatabase;
+import lv.javaguru.java2.businesslogic.GalleryService;
 
 import java.util.List;
 import java.util.Scanner;
 
-public class ShowImagesInAGalleryView implements View{
-    private ShowImagesInAGalleryService showImagesInAGalleryService;
+public class ShowImagesInAGalleryView implements View {
+    private final GalleryService galleryService;
 
-    public ShowImagesInAGalleryView(GalleryDatabase galleryDatabase) {
-        this.showImagesInAGalleryService = new ShowImagesInAGalleryService(galleryDatabase);
+    public ShowImagesInAGalleryView(GalleryService galleryService) {
+        this.galleryService = galleryService;
     }
 
     @Override
@@ -22,7 +21,7 @@ public class ShowImagesInAGalleryView implements View{
         System.out.print("Enter gallery title:");
         String galleryTitle = sc.nextLine();
 
-        List<Image> images = showImagesInAGalleryService.getAllImagesInAGallery(galleryTitle);
+        List<Image> images = galleryService.getAllImagesInAGallery(galleryTitle);
 
 
         for (Image image : images) {
