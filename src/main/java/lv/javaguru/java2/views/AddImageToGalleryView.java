@@ -1,15 +1,14 @@
 package lv.javaguru.java2.views;
 
-import lv.javaguru.java2.businesslogic.AddImageToGalleryService;
-import lv.javaguru.java2.database.GalleryDatabase;
+import lv.javaguru.java2.businesslogic.GalleryService;
 
 import java.util.Scanner;
 
 public class AddImageToGalleryView implements View {
-    private AddImageToGalleryService addImageToGalleryService;
+    private final GalleryService galleryService;
 
-    public AddImageToGalleryView(GalleryDatabase database) {
-        this.addImageToGalleryService = new AddImageToGalleryService(database);
+    public AddImageToGalleryView(GalleryService galleryService) {
+        this.galleryService = galleryService;
     }
 
     @Override
@@ -22,7 +21,7 @@ public class AddImageToGalleryView implements View {
         System.out.print("Enter image title:");
         String stringTitle = sc.nextLine();
 
-        addImageToGalleryService.addImageToGallery(galleryTitle, stringTitle);
+        galleryService.addImageToGallery(galleryTitle, stringTitle);
 
         System.out.println("Add image to gallery execution end!");
         System.out.println();

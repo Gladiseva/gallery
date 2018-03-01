@@ -46,15 +46,11 @@ public class GalleryInMemoryDatabase implements GalleryDatabase {
 
     @Override
     public List<Gallery> getAllGalleries() {
-        List<Gallery> allGalleries = new ArrayList<>();
-        allGalleries.addAll(galleries);
-        return allGalleries;
+        return new ArrayList<>(galleries);
     }
 
     @Override
     public List<Image> getAllImages(Gallery gallery) {
-        List<Image> allImages = new ArrayList<>();
-        allImages.addAll(gallery.getImages());
-        return allImages;
+        return new ArrayList<>(gallery.getImages());
     }
 }

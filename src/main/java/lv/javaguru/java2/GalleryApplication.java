@@ -1,5 +1,7 @@
 package lv.javaguru.java2;
 
+import lv.javaguru.java2.businesslogic.GalleryService;
+import lv.javaguru.java2.businesslogic.GalleryServiceImpl;
 import lv.javaguru.java2.database.GalleryDatabase;
 import lv.javaguru.java2.database.GalleryInMemoryDatabase;
 import lv.javaguru.java2.views.*;
@@ -13,11 +15,12 @@ public class GalleryApplication {
     public static void main(String[] args) {
 
         GalleryDatabase database = new GalleryInMemoryDatabase();
+        GalleryService galleryService = new GalleryServiceImpl(database);
 
-        View addGalleryView = new AddGalleryView(database);
-        View addImageToGalleryView = new AddImageToGalleryView(database);
-        View showGalleriesView = new ShowGalleriesView(database);
-        View showImagesView = new ShowImagesInAGalleryView(database);
+        View addGalleryView = new AddGalleryView(galleryService);
+        View addImageToGalleryView = new AddImageToGalleryView(galleryService);
+        View showGalleriesView = new ShowGalleriesView(galleryService);
+        View showImagesView = new ShowImagesInAGalleryView(galleryService);
 
         Map<Integer, View> actionMap = new HashMap<>();
         actionMap.put(1, addGalleryView);
