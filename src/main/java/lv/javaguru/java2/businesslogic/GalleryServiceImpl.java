@@ -41,6 +41,43 @@ public class GalleryServiceImpl implements GalleryService {
         return galleryDatabase.getAllGalleries();
     }
 
+    @Override
+    public void removeGallery(String galleryTitle) {
+        Optional<Gallery> galleryOptional = getGallery(galleryTitle);
+        galleryOptional
+                .ifPresent(galleryDatabase::remove);
+    }
+
+    @Override
+    public void removeImageFromGallery(String galleryTitle, String imageTitle) {
+        Gallery gallery;
+        Image imageToDelete;
+        Optional<Gallery> galleryOptional = getGallery(galleryTitle);
+        if (galleryOptional.isPresent()) {
+            gallery = galleryOptional.get();
+            List<Image> images = getAllImagesInAGallery(galleryTitle);
+            Optional<Image> imageOptional = images.stream()
+                    .filter(image -> image.getTitle().equals(imageTitle))
+                    .findFirst();
+            if (imageOptional.isPresent()) {
+                imageToDelete = imageOptional.get();
+                galleryDatabase.removeImageFromGallery(gallery, imageToDelete);
+            }
+        }
+    }
+
+    @Override
+    public Optional<Image> getImage(String galleryTitle, String imageTitle) {
+        Gallery galleryToFind;
+        Optional<Gallery> galleryOptional = getGallery(galleryTitle);
+        if (galleryOptional.isPresent()) {
+            galleryToFind = galleryOptional.get();
+            return galleryToFind.getImages().stream().filter(image -> image.getTitle().equals(imageTitle)).findFirst();
+        } else {
+            return Optional.empty();
+        }
+    }
+
     private Optional<Gallery> getGallery(String galleryTitle) {
         return galleryDatabase.findGalleryByTitle(galleryTitle);
     }

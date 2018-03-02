@@ -31,10 +31,17 @@ public class Gallery {
     }
 
     public List<Image> getImages() {
-        return images;
+        if (images.size() >= 0) {
+            return images;
+        } else {
+            return new ArrayList<>();
+        }
+
     }
 
     public void addImageToGallery(Image image) {
         images.add(image);
     }
+
 }
+

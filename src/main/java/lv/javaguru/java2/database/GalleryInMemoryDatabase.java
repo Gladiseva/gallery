@@ -30,18 +30,13 @@ public class GalleryInMemoryDatabase implements GalleryDatabase {
     }
 
     @Override
-    public Optional<Image> findImageByTitle(String string) {
-        return Optional.empty();
-    }
-
-    @Override
     public void remove(Gallery gallery) {
-
+        galleries.remove(gallery);
     }
 
     @Override
-    public void remove(Image image) {
-
+    public void removeImageFromGallery(Gallery gallery, Image image) {
+        gallery.getImages().remove(image);
     }
 
     @Override
@@ -49,8 +44,4 @@ public class GalleryInMemoryDatabase implements GalleryDatabase {
         return new ArrayList<>(galleries);
     }
 
-    @Override
-    public List<Image> getAllImages(Gallery gallery) {
-        return new ArrayList<>(gallery.getImages());
-    }
 }

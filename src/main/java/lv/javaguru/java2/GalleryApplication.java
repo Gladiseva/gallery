@@ -21,12 +21,18 @@ public class GalleryApplication {
         View addImageToGalleryView = new AddImageToGalleryView(galleryService);
         View showGalleriesView = new ShowGalleriesView(galleryService);
         View showImagesView = new ShowImagesInAGalleryView(galleryService);
+        View removeGalleryView = new RemoveGalleryView(galleryService);
+        View removeImageFromGalleryView = new RemoveImageFromGalleryView(galleryService);
+        View getAnImageFromAGalleryView = new GetAnImageFromAGalleryView(galleryService);
 
         Map<Integer, View> actionMap = new HashMap<>();
         actionMap.put(1, addGalleryView);
         actionMap.put(2, addImageToGalleryView);
         actionMap.put(3, showGalleriesView);
         actionMap.put(4, showImagesView);
+        actionMap.put(5, removeGalleryView);
+        actionMap.put(6, removeImageFromGalleryView);
+        actionMap.put(7, getAnImageFromAGalleryView);
 
         while (true) {
             printProgramMenu();
@@ -43,6 +49,9 @@ public class GalleryApplication {
         System.out.println("2. Add Image to Gallery");
         System.out.println("3. Show available galleries");
         System.out.println("4. Show all images in a specific gallery");
+        System.out.println("5. Remove gallery");
+        System.out.println("6. Remove image from gallery");
+        System.out.println("7. Get an image from a gallery");
     }
 
     private static int getFromUserMenuItemToExecute() {
