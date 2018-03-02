@@ -9,6 +9,9 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.ArrayList;
+
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
@@ -19,6 +22,9 @@ public class GalleryInMemoryDatabaseTest {
 
     @Mock
     private Gallery gallery;
+
+    @Mock
+    private Image image;
 
     @Spy
     @InjectMocks
@@ -39,4 +45,31 @@ public class GalleryInMemoryDatabaseTest {
         assertTrue(contains);
     }
 
+    @Test
+    public void findGalleryByTitle() {
+    }
+
+    @Test
+    public void remove() {
+        database.add(gallery);
+        database.remove(gallery);
+
+        boolean contains = database.getAllGalleries().contains(gallery);
+        assertFalse(contains);
+    }
+
+    @Test
+    public void removeImageFromGallery() {
+        image.setTitle("image");
+        database.addImageToGallery(gallery, "image");
+        database.removeImageFromGallery(gallery, image);
+        boolean contains = gallery.getImages().contains(image);
+        assertFalse(contains);
+    }
+
+    @Test
+    public void getAllGalleries() {
+        Object galleries = database.getAllGalleries();
+        assertTrue(galleries instanceof ArrayList);
+    }
 }
