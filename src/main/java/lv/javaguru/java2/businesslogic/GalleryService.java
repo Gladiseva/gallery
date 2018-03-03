@@ -10,8 +10,6 @@ public interface GalleryService {
     void addGallery(String title,
                     String description);
 
-    void addImageToGallery(String galleryTitle, String imageTitle);
-
     List<Image> getAllImagesInAGallery(String galleryTitle);
 
     List<Gallery> getAllGalleries();
@@ -22,4 +20,5 @@ public interface GalleryService {
 
     Optional<Image> getImage(String galleryTitle, String imageTitle);
 
+    Optional<Gallery> getGallery(String galleryTitle);
 }

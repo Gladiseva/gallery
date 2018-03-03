@@ -31,12 +31,7 @@ public class Gallery {
     }
 
     public List<Image> getImages() {
-        if (images.size() >= 0) {
-            return images;
-        } else {
-            return new ArrayList<>();
-        }
-
+        return new ArrayList<>(images);
     }
 
     public void addImageToGallery(Image image) {

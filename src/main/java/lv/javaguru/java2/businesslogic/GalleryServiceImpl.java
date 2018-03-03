@@ -23,13 +23,6 @@ public class GalleryServiceImpl implements GalleryService {
     }
 
     @Override
-    public void addImageToGallery(String galleryTitle, String imageTitle) {
-        Optional<Gallery> galleryOptional = getGallery(galleryTitle);
-        galleryOptional
-                .ifPresent(gallery -> galleryDatabase.addImageToGallery(gallery, imageTitle));
-    }
-
-    @Override
     public List<Image> getAllImagesInAGallery(String galleryTitle) {
         return getGallery(galleryTitle)
                 .map(Gallery::getImages)
@@ -50,35 +43,33 @@ public class GalleryServiceImpl implements GalleryService {
 
     @Override
     public void removeImageFromGallery(String galleryTitle, String imageTitle) {
-        Gallery gallery;
-        Image imageToDelete;
-        Optional<Gallery> galleryOptional = getGallery(galleryTitle);
-        if (galleryOptional.isPresent()) {
-            gallery = galleryOptional.get();
-            List<Image> images = getAllImagesInAGallery(galleryTitle);
-            Optional<Image> imageOptional = images.stream()
-                    .filter(image -> image.getTitle().equals(imageTitle))
-                    .findFirst();
-            if (imageOptional.isPresent()) {
-                imageToDelete = imageOptional.get();
-                galleryDatabase.removeImageFromGallery(gallery, imageToDelete);
-            }
-        }
+        getGallery(galleryTitle)
+                .ifPresent(gallery -> removeImageFromGallery(galleryTitle, imageTitle, gallery));
     }
 
     @Override
     public Optional<Image> getImage(String galleryTitle, String imageTitle) {
-        Gallery galleryToFind;
         Optional<Gallery> galleryOptional = getGallery(galleryTitle);
         if (galleryOptional.isPresent()) {
-            galleryToFind = galleryOptional.get();
-            return galleryToFind.getImages().stream().filter(image -> image.getTitle().equals(imageTitle)).findFirst();
+            Gallery galleryToFind = galleryOptional.get();
+            return galleryToFind.getImages().stream()
+                    .filter(image -> image.getTitle().equals(imageTitle))
+                    .findFirst();
         } else {
             return Optional.empty();
         }
     }
 
-    private Optional<Gallery> getGallery(String galleryTitle) {
+    @Override
+    public Optional<Gallery> getGallery(String galleryTitle) {
         return galleryDatabase.findGalleryByTitle(galleryTitle);
+    }
+
+    private void removeImageFromGallery(String galleryTitle, String imageTitle, Gallery gallery) {
+        List<Image> images = getAllImagesInAGallery(galleryTitle);
+        images.stream()
+                .filter(image -> image.getTitle().equals(imageTitle))
+                .findFirst()
+                .ifPresent(imageToDelete -> galleryDatabase.removeImageFromGallery(gallery, imageToDelete));
     }
 }

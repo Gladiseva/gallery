@@ -2,6 +2,8 @@ package lv.javaguru.java2;
 
 import lv.javaguru.java2.businesslogic.GalleryService;
 import lv.javaguru.java2.businesslogic.GalleryServiceImpl;
+import lv.javaguru.java2.businesslogic.ImageService;
+import lv.javaguru.java2.businesslogic.ImageServiceImpl;
 import lv.javaguru.java2.database.GalleryDatabase;
 import lv.javaguru.java2.database.GalleryInMemoryDatabase;
 import lv.javaguru.java2.views.*;
@@ -16,9 +18,10 @@ public class GalleryApplication {
 
         GalleryDatabase database = new GalleryInMemoryDatabase();
         GalleryService galleryService = new GalleryServiceImpl(database);
+        ImageService imageService = new ImageServiceImpl(galleryService, database);
 
         View addGalleryView = new AddGalleryView(galleryService);
-        View addImageToGalleryView = new AddImageToGalleryView(galleryService);
+        View addImageToGalleryView = new AddImageToGalleryView(imageService);
         View showGalleriesView = new ShowGalleriesView(galleryService);
         View showImagesView = new ShowImagesInAGalleryView(galleryService);
         View removeGalleryView = new RemoveGalleryView(galleryService);
