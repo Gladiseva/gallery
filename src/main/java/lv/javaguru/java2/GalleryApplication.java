@@ -5,7 +5,7 @@ import lv.javaguru.java2.businesslogic.GalleryServiceImpl;
 import lv.javaguru.java2.businesslogic.ImageService;
 import lv.javaguru.java2.businesslogic.ImageServiceImpl;
 import lv.javaguru.java2.database.GalleryDatabase;
-import lv.javaguru.java2.database.GalleryInMemoryDatabase;
+import lv.javaguru.java2.database.GalleryRealDatabase;
 import lv.javaguru.java2.views.*;
 import lv.javaguru.java2.views.validation.UserInputValidator;
 
@@ -17,7 +17,7 @@ public class GalleryApplication {
 
     public static void main(String[] args) {
 
-        GalleryDatabase database = new GalleryInMemoryDatabase();
+        GalleryDatabase database = new GalleryRealDatabase();
         GalleryService galleryService = new GalleryServiceImpl(database);
         ImageService imageService = new ImageServiceImpl(galleryService, database);
         UserInputValidator validator = new UserInputValidator(galleryService, imageService);
