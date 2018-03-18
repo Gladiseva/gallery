@@ -1,12 +1,6 @@
 package lv.javaguru.java2.database;
 
-import lv.javaguru.java2.Gallery;
-import lv.javaguru.java2.Image;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
+/*
 public class GalleryInMemoryDatabase implements GalleryDatabase {
 
     private List<Gallery> galleries = new ArrayList<>();
@@ -66,3 +60,4 @@ public class GalleryInMemoryDatabase implements GalleryDatabase {
     }
 
 }
+*/

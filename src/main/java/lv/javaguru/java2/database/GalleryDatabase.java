@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface GalleryDatabase {
     void add(Gallery gallery);
 
-    void addImageToGallery(Gallery gallery, String imageTitle);
+    void addImageToGallery(Gallery gallery, Image image);
 
     Optional<Gallery> findGalleryByTitle(String title);
 

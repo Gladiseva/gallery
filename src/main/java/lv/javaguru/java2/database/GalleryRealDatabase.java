@@ -36,13 +36,56 @@ public class GalleryRealDatabase extends JDBCDatabase implements GalleryDatabase
     }
 
     @Override
-    public void addImageToGallery(Gallery gallery, String imageTitle) {
+    public void addImageToGallery(Gallery gallery, Image image) {
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            String sql = "INSERT INTO image(id, gallery_id, title, description) VALUES(default,?, ?, ?)";
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            preparedStatement.setLong(1, gallery.getId());
+            preparedStatement.setString(2, image.getTitle());
+            preparedStatement.setString(3, image.getDescription());
 
+            preparedStatement.executeUpdate();
+            ResultSet rs = preparedStatement.getGeneratedKeys();
+            if (rs.next()) {
+                image.setId(rs.getLong(1));
+            }
+        } catch (Throwable e) {
+            System.out.println("Exception while execute addImageToGallery()");
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } finally {
+            closeConnection(connection);
+        }
     }
 
     @Override
     public Optional<Gallery> findGalleryByTitle(String title) {
-        return Optional.empty();
+        Connection connection = null;
+
+        try {
+            connection = getConnection();
+            String sql = "SELECT * FROM gallery WHERE title = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, title);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            Gallery gallery = null;
+            if (resultSet.next()) {
+                gallery = new Gallery();
+                gallery.setId(resultSet.getLong("id"));
+                gallery.setTitle(resultSet.getString("title"));
+                gallery.setDescription(resultSet.getString("description"));
+            }
+            return Optional.ofNullable(gallery);
+        } catch (Throwable e) {
+            System.out.println("Exception while execute findGalleryByTitle()");
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } finally {
+            closeConnection(connection);
+        }
     }
 
     @Override

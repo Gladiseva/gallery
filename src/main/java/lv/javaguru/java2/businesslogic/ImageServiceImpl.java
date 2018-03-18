@@ -20,9 +20,11 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public void addImageToGallery(String galleryTitle, String imageTitle) {
+        Image image = new Image();
+        image.setTitle(imageTitle);
         Optional<Gallery> galleryOptional = galleryService.getGallery(galleryTitle);
         galleryOptional
-                .ifPresent(gallery -> galleryDatabase.addImageToGallery(gallery, imageTitle));
+                .ifPresent(gallery -> galleryDatabase.addImageToGallery(gallery, image));
     }
 
     @Override
