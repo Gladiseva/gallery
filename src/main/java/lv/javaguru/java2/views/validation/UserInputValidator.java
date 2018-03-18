@@ -2,37 +2,48 @@ package lv.javaguru.java2.views.validation;
 
 import lv.javaguru.java2.Gallery;
 import lv.javaguru.java2.Image;
-import lv.javaguru.java2.database.GalleryDatabase;
+import lv.javaguru.java2.businesslogic.GalleryService;
+import lv.javaguru.java2.businesslogic.ImageService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class UserInputValidator {
-    private GalleryDatabase galleryDatabase;
+    private GalleryService galleryService;
+    private ImageService imageService;
 
-    public UserInputValidator(GalleryDatabase galleryDatabase) {
-        this.galleryDatabase = galleryDatabase;
+    public UserInputValidator(GalleryService galleryService, ImageService imageService) {
+        this.galleryService = galleryService;
+        this.imageService = imageService;
     }
 
-    public List<ValidationError> validateInputTitle(String title) {
+    public List<ValidationError> validateGalleryCreate(String title) {
         List<ValidationError> errors = new ArrayList<>();
         validateTitle(title).ifPresent(errors::add);
-        validateDuplicateTitle(title).ifPresent(errors::add);
+        validateGalleryDuplicateTitle(title).ifPresent(errors::add);
         return errors;
     }
 
-    public List<ValidationError> validateImage(String imageTitle, String galleryTitle) {
-        List<ValidationError> errors = new ArrayList<>();
-        validateTitle(imageTitle).ifPresent(errors::add);
-        validateImageExistence(imageTitle, galleryTitle).ifPresent(errors::add);
-        return errors;
-    }
-
-    public List<ValidationError> validateGallery(String title) {
+    public List<ValidationError> validateGalleryUpdate(String title) {
         List<ValidationError> errors = new ArrayList<>();
         validateTitle(title).ifPresent(errors::add);
         validateGalleryExistence(title).ifPresent(errors::add);
+        return errors;
+    }
+
+    public List<ValidationError> validateImageCreate(String imageTitle, String galleryTitle) {
+        List<ValidationError> errors = new ArrayList<>();
+        validateGalleryExistence(galleryTitle).ifPresent(errors::add);
+        validateTitle(imageTitle).ifPresent(errors::add);
+        validateImageDuplicateTitle(imageTitle, galleryTitle).ifPresent(errors::add);
+        return errors;
+    }
+
+    public List<ValidationError> validateImageUpdate(String imageTitle, String galleryTitle) {
+        List<ValidationError> errors = new ArrayList<>();
+        validateTitle(imageTitle).ifPresent(errors::add);
+        validateImageExistence(imageTitle, galleryTitle).ifPresent(errors::add);
         return errors;
     }
 
@@ -44,19 +55,28 @@ public class UserInputValidator {
         }
     }
 
-    private Optional<ValidationError> validateDuplicateTitle(String title) {
+    private Optional<ValidationError> validateGalleryDuplicateTitle(String title) {
         if (title != null && !title.isEmpty()) {
-            Optional<Gallery> galleryOptional = galleryDatabase.findByTitle(title);
+            Optional<Gallery> galleryOptional = galleryService.getGallery(title);
             if (galleryOptional.isPresent()) {
-                return Optional.of(new ValidationError("title", "Must not be repeated"));
+                return Optional.of(new ValidationError("Gallery title", "Must not be repeated"));
             }
+        }
+        return Optional.empty();
+    }
+
+    private Optional<ValidationError> validateImageDuplicateTitle(String imageTitle, String galleryTitle) {
+        Optional<Image> imageOptional = imageService.getImage(imageTitle, galleryTitle);
+
+        if (imageOptional.isPresent()) {
+            return Optional.of(new ValidationError("Image title", "Must not be repeated"));
         }
         return Optional.empty();
     }
 
     private Optional<ValidationError> validateGalleryExistence(String title) {
         if (title != null && !title.isEmpty()) {
-            Optional<Gallery> galleryOptional = galleryDatabase.findByTitle(title);
+            Optional<Gallery> galleryOptional = galleryService.getGallery(title);
             if (!(galleryOptional.isPresent())) {
                 return Optional.of(new ValidationError("title", "There is no such gallery"));
             }
@@ -66,7 +86,7 @@ public class UserInputValidator {
 
     private Optional<ValidationError> validateImageExistence(String imageTitle, String galleryTitle) {
         if (imageTitle != null && !imageTitle.isEmpty()) {
-            Optional<Image> imageOptional = galleryDatabase.findImageByTitle(imageTitle, galleryTitle);
+            Optional<Image> imageOptional = imageService.getImage(imageTitle, galleryTitle);
             if (!(imageOptional.isPresent())) {
                 return Optional.of(new ValidationError("title", "There is no such image"));
             }

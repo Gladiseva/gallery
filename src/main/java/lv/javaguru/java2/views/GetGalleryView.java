@@ -7,31 +7,30 @@ import lv.javaguru.java2.views.validation.UserInputValidator;
 import java.util.Optional;
 import java.util.Scanner;
 
-
-public class RemoveGalleryView implements View {
+public class GetGalleryView implements View {
     private final GalleryService galleryService;
     private UserInputValidator validator;
 
-    public RemoveGalleryView(GalleryService galleryService, UserInputValidator validator) {
+    public GetGalleryView(GalleryService galleryService, UserInputValidator validator) {
         this.galleryService = galleryService;
         this.validator = validator;
-
     }
 
     @Override
     public void execute() {
         System.out.println();
-        System.out.println("Remove gallery execution start!");
+        System.out.println("Get gallery execution start!");
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter gallery title:");
-        String title = sc.nextLine();
-        Optional<Gallery> galleryOptional = galleryService.getGallery(title);
+        String galleryTitle = sc.nextLine();
+        Optional<Gallery> galleryOptional = galleryService.getGallery(galleryTitle);
         if (galleryOptional.isPresent()) {
-            galleryService.removeGallery(title);
+            Gallery gallery = galleryOptional.get();
+            System.out.println("Gallery: " + gallery.getTitle());
+            System.out.println();
         } else {
             System.out.println("There is no such gallery");
         }
 
     }
-
 }

@@ -26,7 +26,8 @@ public class AddGalleryView implements View {
         String title = sc.nextLine();
         System.out.print("Enter gallery description:");
         String description = sc.nextLine();
-        List<ValidationError> errors = validator.validateInputTitle(title);
+        List<ValidationError> errors = validator.validateGalleryCreate(title);
+
         if (errors.isEmpty()) {
             galleryService.addGallery(title, description);
             System.out.println("Gallery successfully added");

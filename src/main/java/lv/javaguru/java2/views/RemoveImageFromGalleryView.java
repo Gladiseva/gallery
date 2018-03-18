@@ -1,10 +1,10 @@
 package lv.javaguru.java2.views;
 
+import lv.javaguru.java2.Image;
 import lv.javaguru.java2.businesslogic.ImageService;
 import lv.javaguru.java2.views.validation.UserInputValidator;
-import lv.javaguru.java2.views.validation.ValidationError;
 
-import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 
@@ -25,25 +25,14 @@ public class RemoveImageFromGalleryView implements View {
 
         System.out.print("Enter gallery title:");
         String galleryTitle = sc.nextLine();
-        List<ValidationError> galleryErrors = validator.validateGallery(galleryTitle);
         System.out.print("Enter image title:");
         String imageTitle = sc.nextLine();
-        List<ValidationError> imageErrors = validator.validateImage(imageTitle, galleryTitle);
+        Optional<Image> imageOptional = imageService.getImage(galleryTitle, imageTitle);
 
-        if (galleryErrors.isEmpty() && imageErrors.isEmpty()) {
+        if (imageOptional.isPresent()) {
             imageService.removeImageFromGallery(galleryTitle, imageTitle);
-            System.out.println("Image successfully removed from gallery!");
-            System.out.println();
         } else {
-            galleryErrors.forEach(error -> {
-                System.out.println("Error field = " + error.getField());
-                System.out.println("Error message = " + error.getErrorMessage());
-            });
-            imageErrors.forEach(error -> {
-                System.out.println("Error field = " + error.getField());
-                System.out.println("Error message = " + error.getErrorMessage());
-            });
-            System.out.println();
+            System.out.println("There is no such image or gallery");
         }
     }
 }

@@ -20,10 +20,10 @@ public class GalleryApplication {
         GalleryDatabase database = new GalleryInMemoryDatabase();
         GalleryService galleryService = new GalleryServiceImpl(database);
         ImageService imageService = new ImageServiceImpl(galleryService, database);
-        UserInputValidator validator = new UserInputValidator(database);
+        UserInputValidator validator = new UserInputValidator(galleryService, imageService);
 
         View addGalleryView = new AddGalleryView(galleryService, validator);
-        View addImageToGalleryView = new AddImageToGalleryView(imageService, validator);
+        View addImageToGalleryView = new AddImageToGalleryView(imageService, galleryService, validator);
         View showGalleriesView = new ShowGalleriesView(galleryService);
         View showImagesView = new ShowImagesInAGalleryView(imageService, validator);
         View removeGalleryView = new RemoveGalleryView(galleryService, validator);

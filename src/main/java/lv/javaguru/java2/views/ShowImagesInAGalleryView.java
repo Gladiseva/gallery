@@ -3,7 +3,6 @@ package lv.javaguru.java2.views;
 import lv.javaguru.java2.Image;
 import lv.javaguru.java2.businesslogic.ImageService;
 import lv.javaguru.java2.views.validation.UserInputValidator;
-import lv.javaguru.java2.views.validation.ValidationError;
 
 import java.util.List;
 import java.util.Scanner;
@@ -25,20 +24,13 @@ public class ShowImagesInAGalleryView implements View {
         System.out.print("Enter gallery title:");
         String title = sc.nextLine();
 
-        List<ValidationError> errors = validator.validateGallery(title);
-
-        if (errors.isEmpty()) {
-            List<Image> images = imageService.getAllImagesInAGallery("galleryTitle");
+        List<Image> images = imageService.getAllImagesInAGallery(title);
+        if (images.size() >= 0) {
             for (Image image : images) {
                 System.out.println(image.getTitle());
             }
-            System.out.println("Print existing images in a gallery to console execution end!");
         } else {
-            errors.forEach(error -> {
-                System.out.println("Error field = " + error.getField());
-                System.out.println("Error message = " + error.getErrorMessage());
-            });
-            System.out.println();
+            System.out.println("There is no images in a gallery");
         }
 
 
