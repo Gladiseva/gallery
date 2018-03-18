@@ -18,7 +18,8 @@ public class GalleryInMemoryDatabase implements GalleryDatabase {
 
     @Override
     public void addImageToGallery(Gallery gallery, String imageTitle) {
-        Image image = new Image(imageTitle);
+        Image image = new Image();
+        image.setTitle(imageTitle);
         gallery.addImageToGallery(image);
     }
 
@@ -27,6 +28,19 @@ public class GalleryInMemoryDatabase implements GalleryDatabase {
         return galleries.stream()
                 .filter(p -> p.getTitle().equals(title))
                 .findFirst();
+    }
+
+    @Override
+    public Optional<Image> findImageByTitle(String imageTitle, String galleryTitle) {
+        Optional<Gallery> galleryOptional = findGalleryByTitle(galleryTitle);
+        if (galleryOptional.isPresent()) {
+            Gallery gallery = galleryOptional.get();
+            return gallery.getImages().stream()
+                    .filter(image -> image.getTitle().equals(imageTitle))
+                    .findFirst();
+
+        }
+        return Optional.empty();
     }
 
     @Override
@@ -42,6 +56,13 @@ public class GalleryInMemoryDatabase implements GalleryDatabase {
     @Override
     public List<Gallery> getAllGalleries() {
         return new ArrayList<>(galleries);
+    }
+
+    @Override
+    public Optional<Gallery> findByTitle(String title) {
+        return galleries.stream()
+                .filter(p -> p.getTitle().equals(title))
+                .findFirst();
     }
 
 }

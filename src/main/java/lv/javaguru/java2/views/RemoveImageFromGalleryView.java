@@ -1,14 +1,20 @@
 package lv.javaguru.java2.views;
 
-import lv.javaguru.java2.businesslogic.GalleryService;
+import lv.javaguru.java2.businesslogic.ImageService;
+import lv.javaguru.java2.views.validation.UserInputValidator;
+import lv.javaguru.java2.views.validation.ValidationError;
 
+import java.util.List;
 import java.util.Scanner;
 
-public class RemoveImageFromGalleryView implements View {
-    private final GalleryService galleryService;
 
-    public RemoveImageFromGalleryView(GalleryService galleryService) {
-        this.galleryService = galleryService;
+public class RemoveImageFromGalleryView implements View {
+    private final ImageService imageService;
+    private UserInputValidator validator;
+
+    public RemoveImageFromGalleryView(ImageService imageService, UserInputValidator validator) {
+        this.imageService = imageService;
+        this.validator = validator;
     }
 
     @Override
@@ -16,14 +22,28 @@ public class RemoveImageFromGalleryView implements View {
         System.out.println();
         System.out.println("Remove image from gallery execution start!");
         Scanner sc = new Scanner(System.in);
-        System.out.print("Enter gallery title");
+
+        System.out.print("Enter gallery title:");
         String galleryTitle = sc.nextLine();
-        System.out.print("Enter image title to remove:");
+        List<ValidationError> galleryErrors = validator.validateGallery(galleryTitle);
+        System.out.print("Enter image title:");
         String imageTitle = sc.nextLine();
+        List<ValidationError> imageErrors = validator.validateImage(imageTitle, galleryTitle);
 
-        galleryService.removeImageFromGallery(galleryTitle, imageTitle);
-
-        System.out.println("Remove image from a gallery execution end!");
-        System.out.println();
+        if (galleryErrors.isEmpty() && imageErrors.isEmpty()) {
+            imageService.removeImageFromGallery(galleryTitle, imageTitle);
+            System.out.println("Image successfully removed from gallery!");
+            System.out.println();
+        } else {
+            galleryErrors.forEach(error -> {
+                System.out.println("Error field = " + error.getField());
+                System.out.println("Error message = " + error.getErrorMessage());
+            });
+            imageErrors.forEach(error -> {
+                System.out.println("Error field = " + error.getField());
+                System.out.println("Error message = " + error.getErrorMessage());
+            });
+            System.out.println();
+        }
     }
 }

@@ -7,6 +7,7 @@ import lv.javaguru.java2.businesslogic.ImageServiceImpl;
 import lv.javaguru.java2.database.GalleryDatabase;
 import lv.javaguru.java2.database.GalleryInMemoryDatabase;
 import lv.javaguru.java2.views.*;
+import lv.javaguru.java2.views.validation.UserInputValidator;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,14 +20,16 @@ public class GalleryApplication {
         GalleryDatabase database = new GalleryInMemoryDatabase();
         GalleryService galleryService = new GalleryServiceImpl(database);
         ImageService imageService = new ImageServiceImpl(galleryService, database);
+        UserInputValidator validator = new UserInputValidator(database);
 
-        View addGalleryView = new AddGalleryView(galleryService);
-        View addImageToGalleryView = new AddImageToGalleryView(imageService);
+        View addGalleryView = new AddGalleryView(galleryService, validator);
+        View addImageToGalleryView = new AddImageToGalleryView(imageService, validator);
         View showGalleriesView = new ShowGalleriesView(galleryService);
-        View showImagesView = new ShowImagesInAGalleryView(galleryService);
-        View removeGalleryView = new RemoveGalleryView(galleryService);
-        View removeImageFromGalleryView = new RemoveImageFromGalleryView(galleryService);
-        View getAnImageFromAGalleryView = new GetAnImageFromAGalleryView(galleryService);
+        View showImagesView = new ShowImagesInAGalleryView(imageService, validator);
+        View removeGalleryView = new RemoveGalleryView(galleryService, validator);
+        View removeImageFromGalleryView = new RemoveImageFromGalleryView(imageService, validator);
+        View getAnImageFromAGalleryView = new GetAnImageFromAGalleryView(imageService, validator);
+        View programExitView = new ProgramExitView();
 
         Map<Integer, View> actionMap = new HashMap<>();
         actionMap.put(1, addGalleryView);
@@ -36,6 +39,7 @@ public class GalleryApplication {
         actionMap.put(5, removeGalleryView);
         actionMap.put(6, removeImageFromGalleryView);
         actionMap.put(7, getAnImageFromAGalleryView);
+        actionMap.put(8, programExitView);
 
         while (true) {
             printProgramMenu();
@@ -55,6 +59,8 @@ public class GalleryApplication {
         System.out.println("5. Remove gallery");
         System.out.println("6. Remove image from gallery");
         System.out.println("7. Get an image from a gallery");
+        System.out.println("8. Quit");
+
     }
 
     private static int getFromUserMenuItemToExecute() {

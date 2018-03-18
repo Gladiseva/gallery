@@ -13,10 +13,14 @@ public interface GalleryDatabase {
 
     Optional<Gallery> findGalleryByTitle(String title);
 
+    Optional<Image> findImageByTitle(String imageTitle, String galleryTitle);
+
     void remove(Gallery gallery);
 
     void removeImageFromGallery(Gallery gallery, Image image);
 
     List<Gallery> getAllGalleries();
+
+    Optional<Gallery> findByTitle(String title);
 
 }
