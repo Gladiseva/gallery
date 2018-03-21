@@ -32,9 +32,7 @@ public class ImageServiceImpl implements ImageService {
         Optional<Gallery> galleryOptional = galleryService.getGallery(galleryTitle);
         if (galleryOptional.isPresent()) {
             Gallery galleryToFind = galleryOptional.get();
-            return galleryToFind.getImages().stream()
-                    .filter(image -> image.getTitle().equals(imageTitle))
-                    .findFirst();
+            return galleryDatabase.findImageByTitle(galleryToFind, imageTitle);
         } else {
             return Optional.empty();
         }
@@ -43,9 +41,14 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public List<Image> getAllImagesInAGallery(String galleryTitle) {
-        return galleryService.getGallery(galleryTitle)
-                .map(Gallery::getImages)
-                .orElse(new ArrayList<>());
+        Optional<Gallery> galleryOptional = galleryService.getGallery(galleryTitle);
+        if (galleryOptional.isPresent()) {
+            Gallery galleryToFind = galleryOptional.get();
+            return galleryDatabase.getAllImagesInAGallery(galleryToFind);
+        } else {
+            return new ArrayList<>();
+        }
+
     }
 
 

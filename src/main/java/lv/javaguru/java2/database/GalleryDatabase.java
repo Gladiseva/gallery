@@ -13,7 +13,7 @@ public interface GalleryDatabase {
 
     Optional<Gallery> findGalleryByTitle(String title);
 
-    Optional<Image> findImageByTitle(String imageTitle, String galleryTitle);
+    Optional<Image> findImageByTitle(Gallery gallery, String imageTitle);
 
     void remove(Gallery gallery);
 
@@ -21,6 +21,6 @@ public interface GalleryDatabase {
 
     List<Gallery> getAllGalleries();
 
-    Optional<Gallery> findByTitle(String title);
+    List<Image> getAllImagesInAGallery(Gallery gallery);
 
 }

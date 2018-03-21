@@ -32,7 +32,7 @@ public class AddImageToGalleryView implements View {
         List<ValidationError> errors = validator.validateImageCreate(imageTitle, galleryTitle);
 
         if (errors.isEmpty()) {
-            imageService.addImageToGallery(galleryTitle, galleryTitle);
+            imageService.addImageToGallery(galleryTitle, imageTitle);
             System.out.println("Image successfully added to gallery!");
             System.out.println();
         } else {
