@@ -2,19 +2,17 @@ package lv.javaguru.java2.views;
 
 import lv.javaguru.java2.Image;
 import lv.javaguru.java2.businesslogic.ImageService;
-import lv.javaguru.java2.views.validation.UserInputValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Scanner;
 
-public class ShowImagesInAGalleryView implements View {
-    private final ImageService imageService;
-    private UserInputValidator validator;
 
-    public ShowImagesInAGalleryView(ImageService imageService, UserInputValidator validator) {
-        this.imageService = imageService;
-        this.validator = validator;
-    }
+@Component
+public class ShowImagesInAGalleryView implements View {
+    @Autowired
+    private ImageService imageService;
 
     @Override
     public void execute() {
@@ -25,7 +23,7 @@ public class ShowImagesInAGalleryView implements View {
         String title = sc.nextLine();
 
         List<Image> images = imageService.getAllImagesInAGallery(title);
-        if (images.size() >= 0) {
+        if (images.size() > 0) {
             for (Image image : images) {
                 System.out.println(image.getTitle());
             }

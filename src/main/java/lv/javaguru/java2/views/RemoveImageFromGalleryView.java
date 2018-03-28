@@ -2,20 +2,17 @@ package lv.javaguru.java2.views;
 
 import lv.javaguru.java2.Image;
 import lv.javaguru.java2.businesslogic.ImageService;
-import lv.javaguru.java2.views.validation.UserInputValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.Scanner;
 
 
+@Component
 public class RemoveImageFromGalleryView implements View {
-    private final ImageService imageService;
-    private UserInputValidator validator;
-
-    public RemoveImageFromGalleryView(ImageService imageService, UserInputValidator validator) {
-        this.imageService = imageService;
-        this.validator = validator;
-    }
+    @Autowired
+    private ImageService imageService;
 
     @Override
     public void execute() {

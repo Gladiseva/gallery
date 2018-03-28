@@ -1,23 +1,20 @@
 package lv.javaguru.java2.views;
 
-import lv.javaguru.java2.businesslogic.GalleryService;
 import lv.javaguru.java2.businesslogic.ImageService;
 import lv.javaguru.java2.views.validation.UserInputValidator;
 import lv.javaguru.java2.views.validation.ValidationError;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Scanner;
 
+@Component
 public class AddImageToGalleryView implements View {
-    private final ImageService imageService;
-    private final GalleryService galleryService;
+    @Autowired
+    private ImageService imageService;
+    @Autowired
     private UserInputValidator validator;
-
-    public AddImageToGalleryView(ImageService imageService, GalleryService galleryService, UserInputValidator validator) {
-        this.imageService = imageService;
-        this.galleryService = galleryService;
-        this.validator = validator;
-    }
 
     @Override
     public void execute() {

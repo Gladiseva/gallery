@@ -2,19 +2,18 @@ package lv.javaguru.java2.views;
 
 import lv.javaguru.java2.Image;
 import lv.javaguru.java2.businesslogic.ImageService;
-import lv.javaguru.java2.views.validation.UserInputValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.Scanner;
 
-public class GetAnImageFromAGalleryView implements View {
-    private final ImageService imageService;
-    private UserInputValidator validator;
 
-    public GetAnImageFromAGalleryView(ImageService imageService, UserInputValidator validator) {
-        this.imageService = imageService;
-        this.validator = validator;
-    }
+@Component
+public class GetAnImageFromAGalleryView implements View {
+    @Autowired
+    private ImageService imageService;
+
 
     @Override
     public void execute() {

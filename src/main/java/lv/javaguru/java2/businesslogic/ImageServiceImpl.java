@@ -3,20 +3,20 @@ package lv.javaguru.java2.businesslogic;
 import lv.javaguru.java2.Gallery;
 import lv.javaguru.java2.Image;
 import lv.javaguru.java2.database.GalleryDatabase;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class ImageServiceImpl implements ImageService {
 
-    private final GalleryService galleryService;
-    private final GalleryDatabase galleryDatabase;
-
-    public ImageServiceImpl(GalleryService galleryService, GalleryDatabase galleryDatabase) {
-        this.galleryService = galleryService;
-        this.galleryDatabase = galleryDatabase;
-    }
+    @Autowired
+    private GalleryService galleryService;
+    @Autowired
+    private GalleryDatabase galleryDatabase;
 
     @Override
     public void addImageToGallery(String galleryTitle, String imageTitle) {

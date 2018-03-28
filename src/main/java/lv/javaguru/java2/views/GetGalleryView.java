@@ -2,19 +2,18 @@ package lv.javaguru.java2.views;
 
 import lv.javaguru.java2.Gallery;
 import lv.javaguru.java2.businesslogic.GalleryService;
-import lv.javaguru.java2.views.validation.UserInputValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.Scanner;
 
-public class GetGalleryView implements View {
-    private final GalleryService galleryService;
-    private UserInputValidator validator;
 
-    public GetGalleryView(GalleryService galleryService, UserInputValidator validator) {
-        this.galleryService = galleryService;
-        this.validator = validator;
-    }
+@Component
+public class GetGalleryView implements View {
+    @Autowired
+    private GalleryService galleryService;
+
 
     @Override
     public void execute() {

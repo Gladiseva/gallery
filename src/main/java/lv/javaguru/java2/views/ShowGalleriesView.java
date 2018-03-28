@@ -2,13 +2,14 @@ package lv.javaguru.java2.views;
 
 import lv.javaguru.java2.Gallery;
 import lv.javaguru.java2.businesslogic.GalleryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class ShowGalleriesView implements View {
-    private final GalleryService galleryService;
-
-    public ShowGalleriesView(GalleryService galleryService) {
-        this.galleryService = galleryService;
-    }
+    @Autowired
+    private GalleryService galleryService;
 
     @Override
     public void execute() {

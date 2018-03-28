@@ -4,19 +4,19 @@ import lv.javaguru.java2.Gallery;
 import lv.javaguru.java2.Image;
 import lv.javaguru.java2.businesslogic.GalleryService;
 import lv.javaguru.java2.businesslogic.ImageService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class UserInputValidator {
+    @Autowired
     private GalleryService galleryService;
+    @Autowired
     private ImageService imageService;
-
-    public UserInputValidator(GalleryService galleryService, ImageService imageService) {
-        this.galleryService = galleryService;
-        this.imageService = imageService;
-    }
 
     public List<ValidationError> validateGalleryCreate(String title) {
         List<ValidationError> errors = new ArrayList<>();

@@ -2,16 +2,16 @@ package lv.javaguru.java2.businesslogic;
 
 import lv.javaguru.java2.Gallery;
 import lv.javaguru.java2.database.GalleryDatabase;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class GalleryServiceImpl implements GalleryService {
-    private final GalleryDatabase galleryDatabase;
-
-    public GalleryServiceImpl(GalleryDatabase galleryDatabase) {
-        this.galleryDatabase = galleryDatabase;
-    }
+    @Autowired
+    private GalleryDatabase galleryDatabase;
 
     @Override
     public void addGallery(String title,
@@ -33,8 +33,6 @@ public class GalleryServiceImpl implements GalleryService {
         galleryOptional
                 .ifPresent(galleryDatabase::remove);
     }
-
-
 
     @Override
     public Optional<Gallery> getGallery(String galleryTitle) {

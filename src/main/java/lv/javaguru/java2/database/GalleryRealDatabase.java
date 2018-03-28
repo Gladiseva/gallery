@@ -2,6 +2,7 @@ package lv.javaguru.java2.database;
 
 import lv.javaguru.java2.Gallery;
 import lv.javaguru.java2.Image;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class GalleryRealDatabase extends JDBCDatabase implements GalleryDatabase {
     @Override
     public void add(Gallery gallery) {

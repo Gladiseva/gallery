@@ -1,13 +1,9 @@
 package lv.javaguru.java2;
 
-import lv.javaguru.java2.businesslogic.GalleryService;
-import lv.javaguru.java2.businesslogic.GalleryServiceImpl;
-import lv.javaguru.java2.businesslogic.ImageService;
-import lv.javaguru.java2.businesslogic.ImageServiceImpl;
-import lv.javaguru.java2.database.GalleryDatabase;
-import lv.javaguru.java2.database.GalleryRealDatabase;
+import lv.javaguru.java2.configs.SpringAppConfig;
 import lv.javaguru.java2.views.*;
-import lv.javaguru.java2.views.validation.UserInputValidator;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,29 +13,19 @@ public class GalleryApplication {
 
     public static void main(String[] args) {
 
-        GalleryDatabase database = new GalleryRealDatabase();
-        GalleryService galleryService = new GalleryServiceImpl(database);
-        ImageService imageService = new ImageServiceImpl(galleryService, database);
-        UserInputValidator validator = new UserInputValidator(galleryService, imageService);
+        ApplicationContext applicationContext
+                = new AnnotationConfigApplicationContext(SpringAppConfig.class);
 
-        View addGalleryView = new AddGalleryView(galleryService, validator);
-        View addImageToGalleryView = new AddImageToGalleryView(imageService, galleryService, validator);
-        View showGalleriesView = new ShowGalleriesView(galleryService);
-        View showImagesView = new ShowImagesInAGalleryView(imageService, validator);
-        View removeGalleryView = new RemoveGalleryView(galleryService, validator);
-        View removeImageFromGalleryView = new RemoveImageFromGalleryView(imageService, validator);
-        View getAnImageFromAGalleryView = new GetAnImageFromAGalleryView(imageService, validator);
-        View programExitView = new ProgramExitView();
 
         Map<Integer, View> actionMap = new HashMap<>();
-        actionMap.put(1, addGalleryView);
-        actionMap.put(2, addImageToGalleryView);
-        actionMap.put(3, showGalleriesView);
-        actionMap.put(4, showImagesView);
-        actionMap.put(5, removeGalleryView);
-        actionMap.put(6, removeImageFromGalleryView);
-        actionMap.put(7, getAnImageFromAGalleryView);
-        actionMap.put(8, programExitView);
+        actionMap.put(1, applicationContext.getBean(AddGalleryView.class));
+        actionMap.put(2, applicationContext.getBean(AddImageToGalleryView.class));
+        actionMap.put(3, applicationContext.getBean(ShowGalleriesView.class));
+        actionMap.put(4, applicationContext.getBean(ShowImagesInAGalleryView.class));
+        actionMap.put(5, applicationContext.getBean(RemoveGalleryView.class));
+        actionMap.put(6, applicationContext.getBean(RemoveImageFromGalleryView.class));
+        actionMap.put(7, applicationContext.getBean(GetAnImageFromAGalleryView.class));
+        actionMap.put(8, applicationContext.getBean(ProgramExitView.class));
 
         while (true) {
             printProgramMenu();
