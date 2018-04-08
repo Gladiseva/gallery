@@ -1,11 +1,30 @@
 package lv.javaguru.java2;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "image")
 public class Image {
+
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "image_seq")
+    @SequenceGenerator(
+            name = "image_seq",
+            sequenceName = "image_seq",
+            allocationSize = 1
+    )
     private Long id;
+
+    @Column(name = "title", nullable = false)
     private String title;
+
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "gallery_id")
+    private Long galleryId;
 
     public Long getId() {
         return id;
@@ -29,6 +48,14 @@ public class Image {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getGalleryId() {
+        return galleryId;
+    }
+
+    public void setGalleryId(Long galleryId) {
+        this.galleryId = galleryId;
     }
 
     @Override

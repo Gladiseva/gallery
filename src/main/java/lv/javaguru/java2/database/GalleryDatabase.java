@@ -9,15 +9,15 @@ import java.util.Optional;
 public interface GalleryDatabase {
     void add(Gallery gallery);
 
-    void addImageToGallery(Gallery gallery, Image image);
+    void addImageToGallery(Image image, Gallery gallery);
 
     Optional<Gallery> findGalleryByTitle(String title);
 
-    Optional<Image> findImageByTitle(Gallery gallery, String imageTitle);
+    Optional<Image> findImageByTitle(String imageTitle);
 
     void remove(Gallery gallery);
 
-    void removeImageFromGallery(Gallery gallery, Image image);
+    void removeImageFromGallery(Image image);
 
     List<Gallery> getAllGalleries();
 

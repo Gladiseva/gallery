@@ -1,15 +1,27 @@
 package lv.javaguru.java2;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "gallery")
 public class Gallery {
-    private Long id;
-    private String title;
-    private String description;
 
-    private List<Image> images = new ArrayList<>();
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gallery_seq")
+    @SequenceGenerator(
+            name = "gallery_seq",
+            sequenceName = "gallery_seq",
+            allocationSize = 1
+    )
+    private Long id;
+
+    @Column(name = "title", nullable = false)
+    private String title;
+
+    @Column(name = "description")
+    private String description;
 
     public Long getId() {
         return id;
@@ -35,17 +47,6 @@ public class Gallery {
         this.description = description;
     }
 
-    public List<Image> getImages() {
-        return images;
-    }
-
-    public void setImages(List<Image> images) {
-        this.images = images;
-    }
-
-    public void addImageToGallery(Image image) {
-        images.add(image);
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -54,14 +55,13 @@ public class Gallery {
         Gallery gallery = (Gallery) o;
         return Objects.equals(id, gallery.id) &&
                 Objects.equals(title, gallery.title) &&
-                Objects.equals(description, gallery.description) &&
-                Objects.equals(images, gallery.images);
+                Objects.equals(description, gallery.description);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, title, description, images);
+        return Objects.hash(id, title, description);
     }
 
 
